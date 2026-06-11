@@ -108,7 +108,7 @@ if genere not exciste > return to the client a message that this genre not in th
  
 ** source .venv/Scripts/activate
 
-** pip frezz > requierment.txt
+** pip freeze > requierment.txt
 
 ** pip install 'fastapi[standard]'
 
