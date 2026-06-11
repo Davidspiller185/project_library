@@ -1,12 +1,17 @@
 # project_library
+```text
  המערכת בונה שרת שמתחבר לממסד נתונים SQL ואחראית לנהל את מערכת הספרים דרך טבלת הספרים ואת מערכת המנויים לספרייה ובודקת האם הספר פנוי להשאלה או לא ובודקת האם החבר פעיל בספרייה או לא ונותנת אפשרות לפעולות CRUD על הספרים ועל מנויי הספרייה
+ ```
 
 # קוד ליצירת docker עם mysql
+``` bash
 pip install mysql-connector-python
 
 docker run --name mysql-w7 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=library_db -p 3306:3306 -d mysql:8
+```
 
 # מבנה התיקיות
+``` text
 
 project_library/
 │
@@ -27,8 +32,10 @@ project_library/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+```
 
 # מבנה הטבלאות
+``` python
 **טבלת books — שדות**
 id - int
 title - str
@@ -43,8 +50,10 @@ name - str
 email- str
 is_active - bool
 total_borrows - int
+```
 
 # חוקי מערכת
+``` text
 **1 - יצירת ספר**
 המשתמש שולח title/author/genre — המערכת מוסיפה is_available=True, borrowed_by=NULL
 
@@ -68,8 +77,10 @@ total_borrows - int
 בו-זמנית
 **8 -  החזרת ספר**
 ניתן להחזיר ספר רק אם הוא מושאל לאותו חבר שמחזיר אותו
+```
 
 # רשימת endpoint
+``` python
 **books** 
 @app.post("/books")
 @app.get("/books")
@@ -89,8 +100,10 @@ total_borrows - int
 @app.get("/reports/summary")
 @app.get("/reports/books-by-genre")
 @app.get("/reports/top-member")
+```
 
 # זרימת המערכת
+``` text
 **book request**
 client ask to borrowed a book > the request came to books oop and check if the book is available, if available > return a sussces message and > update the collumn is_available in the SQL db to false, if not return a messages that the borrow is not suscssec 
 
@@ -101,18 +114,30 @@ update the SQL db with his details member and return message succsses to the cli
 **report request**
 client ask a genre > the request came to report oop and check if the genere exsicte > the oop bring from the SQL db the genre and the count of this genre in the library,
 if genere not exciste > return to the client a message that this genre not in the library.
+```
 
 # הוראות הרצה
+``` bash
 
-** python -m  venv.venv
- 
+** python -m venv .venv
+```
+
+``` bash 
 ** source .venv/Scripts/activate
-
-** pip freeze > requierment.txt
-
+```
+``` bash
 ** pip install 'fastapi[standard]'
+```
 
-** uvicorn main:app --reloade 
+``` bash
+** pip freeze > requierment.txt
+```
+
+``` bash
+** uvicorn main:app --reloade
+```
+
+
 
  
 
