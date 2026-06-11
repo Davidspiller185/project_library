@@ -119,22 +119,22 @@ if genere not exciste > return to the client a message that this genre not in th
 # הוראות הרצה
 ``` bash
 
-** python -m venv .venv
+python -m venv .venv
 ```
 
 ``` bash 
-** source .venv/Scripts/activate
+source .venv/Scripts/activate
 ```
 ``` bash
-** pip install 'fastapi[standard]'
-```
-
-``` bash
-** pip freeze > requierment.txt
+pip install 'fastapi[standard]'
 ```
 
 ``` bash
-** uvicorn main:app --reloade
+pip freeze > requierment.txt
+```
+
+``` bash
+uvicorn main:app --reloade
 ```
 
 
