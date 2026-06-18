@@ -1,4 +1,4 @@
-from db_connection import Connection_DB, connect_db
+from database.db_connection import Connection_DB, connect_db
 
 class MemberDB:
     def __init__(self,db_connect:Connection_DB):
@@ -55,7 +55,7 @@ class MemberDB:
                set_parts=[f'{key}=%s' for key in data.keys()] 
                set_clause=", ".join(set_parts)
                sql=f"UPDATE members SET {set_clause} WHERE id = %s"
-               values=list[data.values()] + [id]
+               values=list(data.values()) + [id]
                cursor.execute(sql,values)
                conn.commit()
                return cursor.rowcount>0
@@ -98,7 +98,7 @@ class MemberDB:
             with conn.cursor(dictionary=True) as cursor:
                 cursor.execute(
                     '''
-                    UPDATE members SET total_borrow = total_borrow+1 WHERE id = %s
+                    UPDATE members SET total_borrows = total_borrows + 1 WHERE id = %s
                     ''',
                     (id,)
                 )
@@ -113,7 +113,7 @@ class MemberDB:
             with conn.cursor(dictionary=True) as cursor:
                 cursor.execute(
                     '''
-                    SELECT COUNT(*) AS total FROM members WHERE is_active = %s 
+                    SELECT COUNT(*) AS total_active FROM members WHERE is_active = %s 
                     ''',
                     (True,)
 
@@ -128,7 +128,7 @@ class MemberDB:
             with conn.cursor(dictionary=True) as cursor:
                 cursor.execute(
                     '''
-                    SELECT MAX(total_borrows) AS max_borrows FROM members
+                    SELECT id,total_borrows  FROM members ORDER BY total_borrows DESC LIMIT 1
                     '''
                 )
                 return cursor.fetchone()
