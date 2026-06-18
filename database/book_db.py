@@ -1,4 +1,4 @@
-from db_connection import Connection_DB,connect_db
+from database.db_connection import Connection_DB,connect_db
 
 class BookDB():
     def __init__(self,db_connect:Connection_DB):
@@ -101,8 +101,8 @@ class BookDB():
           with conn.cursor(dictionary=True)as cursor:
              cursor.execute(
                 '''
-                SELECT COUNT(*) AS total_books_available FROM books WHERE is_availabale = %s
-                '''
+                SELECT COUNT(*) AS total_books_available FROM books WHERE is_available = %s
+                ''',
                 (True,)
              )
              return cursor.fetchone()
@@ -115,8 +115,8 @@ class BookDB():
           with conn.cursor(dictionary=True)as cursor:
              cursor.execute(
                 '''
-                SELECT COUNT(*) AS total_books_available FROM books WHERE is_availabale = %s
-                '''
+                SELECT COUNT(*) AS total_books_borrowed FROM books WHERE is_available = %s
+                ''',
                 (False,)
              )
              return cursor.fetchone()
@@ -130,7 +130,7 @@ class BookDB():
              cursor.execute(
                 '''
                 SELECT COUNT(*) AS total_books_by_genre FROM books WHERE genre = %s
-                '''
+                ''',
                 (genre,)
              )
              return cursor.fetchone()
@@ -143,8 +143,8 @@ class BookDB():
           with conn.cursor(dictionary=True)as cursor:
              cursor.execute(
                 '''
-                SELECT borrowed_by_member_id, COUNT(*) FROM books WHERE borrowed_by_member_id = %s GROUP BY borrowed_by_member_id 
-                '''
+                SELECT COUNT(*) AS count_borrow FROM books WHERE borrowed_by_member_id = %s 
+                ''',
                 (member_id,)
              )
              return cursor.fetchone()
