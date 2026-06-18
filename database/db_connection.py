@@ -1,19 +1,19 @@
 import mysql.connector
 
 
-class Connection_db:
-    def __init__(self,host,password,root,database):
+class Connection_DB:
+    def __init__(self,host,password,user,database):
         self.host=host
         self.password=password
-        self.root=root
+        self.root=user
         self.database=database
         self.connect()
     
     def connect(self):
         self.conn=mysql.connector.connect(
             host=self.host,
-            passowrd=self.passowrd,
-            root=self.root,
+            password=self.password,
+            user=self.root,
             database=self.database
         )
 
@@ -25,7 +25,8 @@ class Connection_db:
         
     
     def create_tables(self):
-        with self.get_connection().cursor() as cursor:
+        conn=self.get_connection()
+        with conn.cursor(dictionary=True) as cursor:
             cursor.execute(
             '''
             CREATE TABLE IF NOT EXISTS books(
@@ -33,9 +34,10 @@ class Connection_db:
             title  VARCHAR(50) NOT NULL,
             author  VARCHAR(50) NOT NULL,
             genre  ENUM('Fiction', 'Non-Fiction', 'Science', 'History', 'Other'),
-            is_available bool NOT NULL,
+            is_available bool NOT NULL DEFAULT TRUE,
             borrowed_by_member_id int DEFAULT NULL)
-            ''' 
+            ''' )
+            cursor.execute(
             '''
             CREATE TABLE IF NOT EXISTS members(
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,8 +47,10 @@ class Connection_db:
             total_borrows INT NOT NULL DEFAULT 0)
             '''
             )
+        conn.commit()
+        conn.close()
                 
-connect=Connection_db("localhost","root","root","library_db")
+connect_db=Connection_DB("localhost","root","root","library_db")
          
             
             
